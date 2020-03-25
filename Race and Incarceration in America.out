@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Data}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Source and Credibility}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Gathering and Cleaning}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Contents}{section.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Bureau of Justice Statistics Data}{subsection.2.3}% 6
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Connecticut Department of Corrections Data}{subsection.2.3}% 7
+\BOOKMARK [1][-]{section.3}{Analysis and Visualization}{}% 8
+\BOOKMARK [2][-]{subsection.3.1}{Increased Rates}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Artifacts of Prison Policy}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.3}{Racial Disparities}{section.3}% 11
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Incarceration Disparity}{subsection.3.3}% 12
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Distribution of Sentence Lengths}{subsection.3.3}% 13
+\BOOKMARK [3][-]{subsubsection.3.3.3}{Predicting Sentence Length}{subsection.3.3}% 14
+\BOOKMARK [3][-]{subsubsection.3.3.4}{Racial Disparity}{subsection.3.3}% 15
+\BOOKMARK [1][-]{section.4}{Conclusion}{}% 16

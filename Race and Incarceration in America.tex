@@ -149,7 +149,7 @@
     \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
     % Document parameters
     % Document title
-    \title{Report}
+    \title{Race and Incarceration in America}
     
     
     
@@ -290,46 +290,37 @@
     
 
     
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
-        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
-        \PY{k+kn}{import} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{linalg} \PY{k}{as} \PY{n+nn}{la}
-        \PY{k+kn}{import} \PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api} \PY{k}{as} \PY{n+nn}{sm}
-        \PY{k+kn}{from} \PY{n+nn}{sklearn} \PY{k}{import} \PY{n}{linear\PYZus{}model}\PY{p}{,} \PY{n}{model\PYZus{}selection}\PY{p}{,} \PY{n}{metrics}
-        \PY{k+kn}{import} \PY{n+nn}{sklearn}
-        \PY{k+kn}{import} \PY{n+nn}{plotly}\PY{n+nn}{.}\PY{n+nn}{graph\PYZus{}objs} \PY{k}{as} \PY{n+nn}{go}
-        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
-        \PY{k+kn}{import} \PY{n+nn}{pprint}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}21}]:} \PY{k+kn}{import} \PY{n+nn}{warnings}
-         \PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\end{Verbatim}
-
     \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-The united states criminal justice system is large complicated machine
-that seeks to deliver justice when an offense has been committed. This
-system has been slowly evolving as our society and culture have changed.
-Many things that Americans take a natural in our criminal justice
-systems are quite abnormal among justice systems world wide. Since the
-1990s we America has seen a drastic increase in the incarcerated
-population. Many Americans believe, as some politicians would have it,
-that this drastic increase in incarceration is a reaction to increased
-rates of crime, and that this heightened rate is natural and just. To
-many it is unclear who is most affected by this drastic change in the
-application of justice in America. It is also unclear how they are so
-affected.
+The United States' criminal justice system is a large complicated
+machine that seeks to deliver justice when an offense has been
+committed. This system has been slowly evolving as our society and
+culture have been changing. Many things that Americans take as natural
+in our criminal justice systems are quite abnormal among justice systems
+worldwide. Since the 1990s, America has seen a drastic increase in the
+incarcerated population, despite a sharp decrease in crime
+{[}\href{https://www.nytimes.com/2008/04/23/world/americas/23iht-23prison.12253738.html}{1}{]}.
+Many Americans may believe that this drastic increase in incarceration
+is a result of increased rates of crime, and that this heightened rate
+is natural and just. To many, it is unclear who is most affected by this
+drastic change in the application of justice in America, and even more
+unclear is how they are so affected.
 
-In this project I am interested in understanding more about the criminal
-justice system and the ways in which the law is being applied to
-different groups in America. With this particular data set I will be
-examining the effects of different factors on sentence length. The
-factors I will be examining are: Offense, age, race, gender, and
-admission date. There are many things that contribute to sentence
-length, however the scope of this project is limited to these factors.
+There is a lot of existing research exploring incarceration and the
+criminal justice system. There is a consensus that America incarcerates
+a larger proportion of its population than any other nation and that
+people of color are disproportionately affected by this high
+incarceration rate
+{[}\href{https://www.nytimes.com/2008/04/23/world/americas/23iht-23prison.12253738.html}{2}{]}.
+
+In this project I am interested in exploring the ways in which the law
+is being applied differently to people in America. I will explore
+different ways to quantify claims about mass incarceration and racial
+bias. I will also be examining things that factor into sentence length
+including the offense committed and race. There are many things that
+contribute to sentence length, however the scope of this project is
+limited to these factors.
 
     \hypertarget{data}{%
 \section{Data}\label{data}}
@@ -350,10 +341,10 @@ and report on this data.
 \hypertarget{gathering-and-cleaning}{%
 \subsection{Gathering and Cleaning}\label{gathering-and-cleaning}}
 
-All of the data which I am using in this report are freely available to
-the public. Collection and cleaning was relatively simple as the source
-data was well maintained. The data the I collected from the Bureau of
-Justice Statistics (BJS) need to be formatted in a way that is easily
+All the data which I am using in this report are freely available to the
+public. Collection and cleaning was relatively simple as the source data
+was well maintained. The data that I collected from the Bureau of
+Justice Statistics (BJS) needed to be formatted in a way that is easily
 read by the Python packages I will be using. This data was prepared in
 .xlsx files as to be easily human readable, however this is not
 generally easily ingested by programs. I extracted data that I found to
@@ -362,246 +353,391 @@ reference. The files are
 
 \begin{verbatim}
 incarceration_counts.csv
-jail_population.csv
-jail_trends.csv
-state_jail_data.csv
-incarceration_by_race.csv.
+incarceration_by_race.csv
+crime_data.csv.
 \end{verbatim}
 
 The file that I obtained from the Connecticut Department of Corrections
 is a very well maintained database. The largest issue I had with this
 file was mild inconsistency with the way in which certain data was
-encoded. This was the data that I spend the most time working to
-engineer as it is the data set that I intend to use for different
-regression-related analyses. This file is
+encoded (ex. race was encoded as both \texttt{WHITE} and
+\texttt{WHITE\textbackslash{}t}). This was the data that I spent the
+most time working to engineer as it is a data set that I intend to use
+for different regression-related analyses. The files are
 
 \begin{verbatim}
-Sentenced_Inmates_in_Correctional_Facilities.csv.
+individuals.csv
+regression_df.csv.
 \end{verbatim}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{inmates} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sentenced\PYZus{}Inmates\PYZus{}in\PYZus{}Correctional\PYZus{}Facilities.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\end{Verbatim}
+    \hypertarget{contents}{%
+\subsection{Contents}\label{contents}}
 
-    Here are the columns of the data obtained from the Connecticut
-Department of Corrections
+\hypertarget{bureau-of-justice-statistics-data}{%
+\subsubsection{Bureau of Justice Statistics
+Data}\label{bureau-of-justice-statistics-data}}
+
+Here I will describe generally each data file and its contents, as well
+as give a small sample from each file {[}3,4,5{]}.
+
+    First we will examine \texttt{incarceration\_trends.csv}. This data set
+records total jail and prison populations across the United States over
+time. This is useful in understanding general trends in the U.S. over
+time. The prison population columns are raw populations of incarcerated
+individuals while the ``population'' column is the U.S. population in
+millions for that year.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{pp} \PY{o}{=} \PY{n}{pprint}\PY{o}{.}\PY{n}{PrettyPrinter}\PY{p}{(}\PY{n}{indent}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{)}
-        \PY{n}{pp}\PY{o}{.}\PY{n}{pprint}\PY{p}{(}\PY{n}{inmates}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{)}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-array(['DOWNLOAD DATE', 'IDENTIFIER', 'LATEST ADMISSION DATE', 'RACE',
-       'GENDER', 'AGE', 'END SENTENCE DATE', 'OFFENSE', 'FACILITY',
-       'DETAINER', 'SENTENCE DAYS',
-       'SPECIAL PAROLE END DATE                                                        '],
-      dtype=object)
+    Year  State prisons  Population
+24  1949         146881      149.19
+61  1986         485553      240.13
+75  2000        1209130      282.16
 
     \end{Verbatim}
 
-    I also created an engineered version that has each of the offences one
-hot encoded
+    \texttt{incarceration\_by\_race.csv} contains race demographic data for
+incarcerated populations by institution. This will allow us to
+understand state incarcerated populations.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} reg\PYZus{}df = pd.read\PYZus{}csv(\PYZsq{}regression\PYZus{}df.csv\PYZsq{})}
-        \PY{c+c1}{\PYZsh{} pp.pprint(reg\PYZus{}df.columns.values)}
-\end{Verbatim}
-
-    These are data sets that I collected from the BJS. I'll show some of the
-columns of these data sets
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{incar} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{incarceration\PYZus{}trends.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        \PY{n}{pop} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{jail\PYZus{}population.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        \PY{n}{trend} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{jail\PYZus{}trends.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        \PY{n}{state} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{state\PYZus{}jail\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        \PY{n}{race} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{incarceration\PYZus{}by\PYZus{}race.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{pp}\PY{o}{.}\PY{n}{pprint}\PY{p}{(}\PY{n}{incar}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{)}
-        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        \PY{n}{pp}\PY{o}{.}\PY{n}{pprint}\PY{p}{(}\PY{n}{pop}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{)}
-        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        \PY{n}{pp}\PY{o}{.}\PY{n}{pprint}\PY{p}{(}\PY{n}{trend}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{)}
-        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        \PY{n}{pp}\PY{o}{.}\PY{n}{pprint}\PY{p}{(}\PY{n}{state}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{)}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-array(['Unnamed: 0', 'Year', 'State prisons', 'Federal prisons',
-       'Local jails'], dtype=object)
-
-
-array(['Unnamed: 0', 'Pre-trial (unadjusted)', 'Convicted (unadjusted)',
-       'Held for state prisons', 'Held for immigration authorities',
-       'Held for Bureau of Prisons or U.S. Marshals Service',
-       'Total held for other authorities', 'Pre-trial (adjusted)',
-       'Convicted (adjusted)', 'year'], dtype=object)
-
-
-array(['State  Jail incarceration rate (2013)', 'Jail growth (1983-2013)',
-       'Percent pre-trial (2013)',
-       'Percent held for all state and federal authorities (2013)',
-       'Percent held for state prisons (2013)',
-       'Percent held for immigration authorities (2013)',
-       'Percent held for U.S. Marshals Service (2013)',
-       'Percent held for other agencies (2013)  ', 'Unnamed: 8'],
-      dtype=object)
-
-
-array(['Unnamed: 0', 'CONFPOP', 'MALE', 'MALE\_PERC', 'JUVMALE',
-       'JUVMALE\_PERC', 'FEM', 'FEM\_PERC', 'JUVFEM', 'JUVFEM\_PERC',
-       'WHITE', 'WHITE\_PERC', 'BLACK', 'BLACK\_PERC', 'HISP', 'HISP\_PERC',
-       'ASIAN', 'ASIAN\_PERC', 'ICE', 'ICE\_PERC', 'BIA'], dtype=object)
+       Geography  Total  White  Black  White\_rate  Black\_rate
+42  South Dakota   6327   3708    476         530        4663
+3        Arizona  67767  36160   8246         775        3184
 
     \end{Verbatim}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}66}]:} \PY{n}{incar}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{State prisons}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}
-         \PY{c+c1}{\PYZsh{} \PYZsh{} incar.rename(columns=\PYZob{}\PYZsq{}Unnamed: 0.1\PYZsq{}:\PYZsq{}Year\PYZsq{}\PYZcb{}, inplace=True)}
-         \PY{c+c1}{\PYZsh{} \PYZsh{} incar.to\PYZus{}csv(\PYZsq{}incarceration\PYZus{}trends.csv\PYZsq{})}
-         \PY{c+c1}{\PYZsh{} \PYZsh{} incar.drop(\PYZsq{}Unnamed: 0\PYZsq{}, axis=1, inplace=True)}
-         \PY{c+c1}{\PYZsh{} incar.to\PYZus{}csv(\PYZsq{}incarceration\PYZus{}trends.csv\PYZsq{})}
-         \PY{n}{incar}
-\end{Verbatim}
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}66}]:}     Unnamed: 0  Year  State prisons Federal prisons  Local jails
-         0            0  1925        85239.0           6,430          NaN
-         1            1  1926        91188.0          6803.0          NaN
-         2            2  1927       101624.0          7722.0          NaN
-         3            3  1928       108157.0          8233.0          NaN
-         4            4  1929       107532.0         12964.0          NaN
-         ..         {\ldots}   {\ldots}            {\ldots}             {\ldots}          {\ldots}
-         87          87  2012      1315856.0          196574     744524.0
-         88          88  2013      1325305.0          195098     731208.0
-         89          89  2014      1316407.0          191374     744592.0
-         90          90  2015      1298159.0          178688     727400.0
-         91          91  2016      1286691.0          171482     740700.0
-         
-         [92 rows x 5 columns]
-\end{Verbatim}
-            
-    \hypertarget{visualization}{%
-\section{Visualization}\label{visualization}}
+    \texttt{crime\_data.csv} records crime rates over time in this U.S. This
+data set will help us understand how crime relates to incarceration. The
+rates are given in offense per 100,000.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}27}]:} \PY{n}{fig} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}
-             \PY{n}{layout}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{title}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{incarceration trends over time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
-                    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{showlegend}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{k+kc}{True}\PY{p}{\PYZcb{}}
-         \PY{p}{)}
-         \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}
-             \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
-                 \PY{n}{x}\PY{o}{=}\PY{n}{incar}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{incar}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{State prisons}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,}
-                 \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{State Prisons}\PY{l+s+s1}{\PYZsq{}}
-             \PY{p}{)}
-         \PY{p}{)}
-         \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}
-             \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
-                 \PY{n}{x}\PY{o}{=}\PY{n}{incar}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{incar}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Federal prisons}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,}
-                 \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Federal Prisons}\PY{l+s+s1}{\PYZsq{}}
-             \PY{p}{)}
-         \PY{p}{)}
-         \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}
-             \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
-                 \PY{n}{x}\PY{o}{=}\PY{n}{incar}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{incar}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Local jails}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,}
-                 \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Local Jails}\PY{l+s+s1}{\PYZsq{}}
-             \PY{p}{)}
-         \PY{p}{)}
-         \PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
+    Year  Violent crime  Murder  Rape  Robbery  Assault
+46  2006          473.6     5.8  31.6    150.0    292.0
+37  1997          611.0     6.8  35.9    186.2    382.1
+9   1969          328.7     7.3  18.5    148.4    154.5
 
-    
+    \end{Verbatim}
+
+    \hypertarget{connecticut-department-of-corrections-data}{%
+\subsubsection{Connecticut Department of Corrections
+Data}\label{connecticut-department-of-corrections-data}}
+
+    This data set contains individual information for 7.77 million people
+that have been processed by the justice system and recorded by the
+Connecticut Department of Corrections. Each individual is recorded along
+with their age, gender, race, offense, and sentence length, among other
+things {[}6{]}.
+
+I also created one-hot encoded versions of this data set in order to run
+regressions on the data. Because of the size of the data, the regression
+data sets are only random subsets of the larger data set.
+
+Because there is so much to consider in what is found in the data set, I
+chose not to engineer more features as to avoid unneeded complexity.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+        LATEST ADMISSION DATE  AGE   RACE  SENTENCE DAYS
+4149965            06/22/2018   29  WHITE            731
+7570861            01/31/2019   34  WHITE            548
+3340323            02/02/2018   43  WHITE            548
+
+    \end{Verbatim}
+
+    We ought to disclose the sample sizes among different races that are
+found in the Connecticut Department of Justice data. The sample size for
+American Indians and Asians is much smaller than that of Whites,
+Hispanics, and Blacks, hence we may see some irregular outcomes in the
+analysis related to these racial groups.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Sample size for Blacks: 3287596
+Sample size for Whites: 2393949
+Sample size for Hispanic: 2039297
+Sample size for American Indian: 21133
+Sample size for Asian: 35660
+
+    \end{Verbatim}
+
+    \hypertarget{analysis-and-visualization}{%
+\section{Analysis and Visualization}\label{analysis-and-visualization}}
+
+\hypertarget{increased-rates}{%
+\subsection{Increased Rates}\label{increased-rates}}
+
+Here we can see the drastic increase of the amount of incarceration in
+the U.S. Something that is interesting to note is that jails are defined
+as places for people who have a sentence less than 1 year, or who are
+awaiting trial. So we see that at its peak in 2008, there were more
+people awaiting trial than there were being held in federal prison in
+1991.
+
+Here I have incarceration rates plotted against the violent crime rate
+in the United States. Near the beginning of the crime rate data we might
+assume some amount of inaccuracy, since the crime rate seems to be less
+than the incarceration rate, however there is an indisputable spike in
+crime rates in the 1980s and 1990s. Something to note is that the
+incarceration rate seems to lag behind about 20 years. Another thing to
+note is that there has been a strict decrease in violent crime (and in
+all crime) since the 90s, however we do not see the same decrease in the
+incarceration rate.
+
+Some would argue that we see this decrease in crime because of the
+increase of incarceration. I would disagree. Consider the scales of the
+different curves we see on the chart. Both are in terms of the rate per
+100,000, but the crime rate is more than 200 times higher than the
+incarceration rate in state prisons. Unless 0.5\% of people who
+committed crime in the 90s were committing more than half of all crime,
+I would argue that there is some other cause for the decrease in crime
+rates.
+
     \begin{center}
-    \image{newplot.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_19_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
-    
-    \hypertarget{increased-rates}{%
-\subsection{Increased rates}\label{increased-rates}}
+    \hypertarget{artifacts-of-prison-policy}{%
+\subsection{Artifacts of Prison
+Policy}\label{artifacts-of-prison-policy}}
 
-Here we can see the drastic increase of the rate and amount of
-incarceration in the U.S. Something that is interesting to note is that
-Jails are defined as places for people who have a sentence less than 1
-year, or who are awaiting trial. So we see that at its peak in 2008,
-there were more people awaiting trial than there were being held in
-federal prison in 1991.
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}87}]:} \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
-         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{50}\PY{p}{,}\PY{l+m+mi}{20000}\PY{p}{)}
-         \PY{n}{bp} \PY{o}{=} \PY{n}{inmates}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}
-             \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{by}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RACE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
-             \PY{n}{vert}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{grid}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
-             \PY{n}{ax}\PY{o}{=}\PY{n}{ax}
-         \PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
+One might expect sentence lengths to be distributed somewhat smoothly.
+However there are standard sentence lengths and mandatory minimum
+sentences that influence the distribution of sentence lenghts, making
+the distribution not smooth.
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_21_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
+    \hypertarget{racial-disparities}{%
+\subsection{Racial Disparities}\label{racial-disparities}}
+
+In this section we will explore how the criminal justice system affects
+people of different races.
+
+\hypertarget{incarceration-disparity}{%
+\subsubsection{Incarceration Disparity}\label{incarceration-disparity}}
+
+These simple histograms, which plot the incarceration rates of Whites,
+Blacks, Hispanics, and Asians among the 50 states, show the huge racial
+disparity in incarceration in America. By incarceration rate we mean: of
+100,000 people of a given race, how many are incarcerated? A simple
+examination of the x-axis, which is rate of incarceration shows that the
+histogram for Whites barely overlaps with the histograms for Blacks and
+Hispanics. This means that in states with a low incarceration rate for
+Blacks, the Black incarceration rate is higher than the highest rates
+seen among Whites.
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_23_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{distribution-of-sentence-lengths}{%
+\subsubsection{Distribution of Sentence
+Lengths}\label{distribution-of-sentence-lengths}}
+
+The next aspect we will explore in this section is the distribution of
+sentence lengths among people of different races. Here we are using the
+data of more than 7.7 million individuals processed by the criminal
+justice system. The medians are comparable on the scale at which
+sentence length is given. Asians and American Indians have the longest
+median sentence length, however the standard deviation in their sentence
+lengths is much less than what is seen in the other racial groups. I
+would attribute this to the low sample size of Asians and American
+Indians.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Median sentence lengths:
+ RACE
+AMER IND    2192
+ASIAN       2557
+BLACK       1826
+HISPANIC    1826
+WHITE       1461
+Name: SENTENCE DAYS, dtype: int64
+
+
+Standard deviation of sentence lengths:
+ RACE
+AMER IND     3208.584729
+ASIAN        5122.011265
+BLACK       37306.146883
+HISPANIC    35763.282330
+WHITE       46882.705552
+Name: SENTENCE DAYS, dtype: float64
+
+    \end{Verbatim}
+
+    This box plot is where we begin to see the disparity in the way people
+of different races are sentenced. While the first two quartiles of each
+racial group's sentence lengths are similar, we see that the top two
+quartiles vary widely.
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_27_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The following histograms will assist us in understanding these
+distributions.
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_29_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    While it may appear that these sentences are distributed fairly
+equivalently, we can examine the kurtosis of the distribution to
+understand how much of the weight of the distribution is found in the
+extremities. Groups with high kurtosis have a higher probability of
+receiving a sentence that is far from the mean
+{[}\href{https://www.tandfonline.com/doi/full/10.1080/00031305.2014.917055?scroll=top\&needAccess=true}{7}{]}.
+
+As we can see, Blacks and Hispanics have the greatest kurtosis, meaning
+they are much more likely to receive an extreme sentence length. It is
+difficult to explain the small kurtosis in American Indians and Asians
+because of the small sample size.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+White Kurtosis: 54.01344161453346
+Black Kurtosis: 86.11479232153843
+Hispanic Kurtosis: 96.03075354970996
+American Indian Kurtosis: 4.0085627062942955
+Asian Kurtosis: 7.45297417968173
+
+    \end{Verbatim}
+
+    \hypertarget{predicting-sentence-length}{%
+\subsubsection{Predicting Sentence
+Length}\label{predicting-sentence-length}}
+
+As indicated by the regression below, attempting to predict sentence
+length based only on the race of the offender is not possible. A larger
+regression, contained in the appendix, shows that a simple linear
+regression does a decent job with an \(R^2\) value of 0.52, when
+offenses are included as variables in the regression. It is inaccurate
+to claim that race alone is the biggest predictor of sentence length and
+unreasonable to claim race is more important than the offense when in
+comes to sentence length.
+
+So how can we explore more deeply the relationship between race and
+sentence length?
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Regression Results:
+
+	Method: Least Squares
+	R-squared value: 0.03601534317319244
+	AIC: 19410096.12270456
+	BIC: 19410165.748789284
+
+    \end{Verbatim}
+
     \hypertarget{racial-disparity}{%
-\subsection{Racial Disparity}\label{racial-disparity}}
+\subsubsection{Racial Disparity}\label{racial-disparity}}
 
-Here we can see some preliminary findings related to racial disparities
-in the criminal justice system. Though we do see comparable median
-sentence lengths, the variance in sentence length among black inmates is
-much higher and the spread of the top two quintiles is much wider.
+In the following section we will examine only individuals that have
+committed the same crime. Then, among those individuals we will examine
+distribution of sentence length. This will show how people of different
+races are treated differently, when in comparable situations.
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}26}]:} \PY{c+c1}{\PYZsh{} fig = go.Figure(}
-         \PY{c+c1}{\PYZsh{}     layout=\PYZob{}\PYZsq{}title\PYZsq{}:\PYZob{}\PYZsq{}text\PYZsq{}:\PYZsq{}Comparing Age and Sentence Lenght\PYZsq{}\PYZcb{},}
-         \PY{c+c1}{\PYZsh{}            \PYZsq{}showlegend\PYZsq{}:False\PYZcb{}}
-         \PY{c+c1}{\PYZsh{} )}
-         \PY{c+c1}{\PYZsh{} fig.add\PYZus{}trace(}
-         \PY{c+c1}{\PYZsh{}     go.Scatter(}
-         \PY{c+c1}{\PYZsh{}         x=inmates[\PYZsq{}AGE\PYZsq{}].values, y=inmates[\PYZsq{}SENTENCE DAYS\PYZsq{}].values}
-         \PY{c+c1}{\PYZsh{}     )}
-         \PY{c+c1}{\PYZsh{} )}
-         \PY{c+c1}{\PYZsh{} fig.show()}
-         \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
-         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{10000}\PY{p}{)}
-         \PY{n}{mask} \PY{o}{=} \PY{n}{inmates}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{10000}
-         \PY{n}{ax}\PY{o}{.}\PY{n}{hexbin}\PY{p}{(}
-             \PY{n}{x}\PY{o}{=}\PY{n}{inmates}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AGE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,}
-             \PY{n}{y}\PY{o}{=}\PY{n}{inmates}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,}
-             \PY{n}{gridsize}\PY{o}{=}\PY{l+m+mi}{45}
-         \PY{p}{)}
-         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
+We will begin by examining the distribution of sentence lengths among
+offenders convicted of ``criminal liability for another person''.
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_35_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
-    \hypertarget{age-discrepency}{%
-\subsection{Age Discrepency}\label{age-discrepency}}
-
-Here we can see that there is slight bias against young people, as they
-seem to get slightly longer sentences. Mostly we see that young people
-are more likely to be arrested and convicted of a crime than older
-people are.
-
-\hypertarget{standard-sentence-length}{%
-\subsection{Standard Sentence Length}\label{standard-sentence-length}}
-
-Something interesting that emerges from this hexbin plot is a depiction
-of standard sentence lengths. These became more common as the idea of
-mandatory minimum sentences has become more popular. This is seen in the
-plot as straight bright horizontal lines. Sentences are given at these
-standard lengths, often times because it is not legal to give a shorter
-sentence.
+    Again we can notice that the distributions don't seem to be all that
+different. However, we can examine kurtosis to see if there is a
+significant difference between these distributions that is lost in a box
+plot.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} 
-\end{Verbatim}
+White Kurtosis for
+	CRIMINAL LIABILITY FOR ANOTHER PERSON: 12.421485976410926
+Black Kurtosis for
+	CRIMINAL LIABILITY FOR ANOTHER PERSON: 23.752981544095174
+Hispanic Kurtosis for
+	CRIMINAL LIABILITY FOR ANOTHER PERSON: 0.5345890525784038
+
+    \end{Verbatim}
+
+    Here it is made clear that Blacks and Hispanics are much more likely to
+receive an extreme sentence than other racial groups for the crime of
+criminal liability.
+
+Following is a sample of a few offenses, the distributions of sentence
+lengths, and the kurtosis of those distributions.
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_39_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+White Kurtosis: 3.815929855470677
+Black Kurtosis: 35.42506786574221
+Hispanic Kurtosis: 23.661202825848072
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_39_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+White Kurtosis: 3.2523247666826185
+Black Kurtosis: 4.946745832035741
+Hispanic Kurtosis: 40.024525483281515
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_39_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+White Kurtosis: 26.642120595723625
+Black Kurtosis: 123.56848013313629
+Hispanic Kurtosis: 0.751155900894612
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_39_6.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+White Kurtosis: 41.205491339214646
+Black Kurtosis: 75.82664857484097
+Hispanic Kurtosis: 99.72485672864623
+
+    \end{Verbatim}
+
+    Here we can see that in many cases Blacks and Hispanics are treated
+differently when it comes to sentencing and incarceration.
+
+    \hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+The American criminal justice system had been criticized by many. Some
+claim that it is an extension of slavery, others claim that is biased
+and broken, while still others claim that it is effective
+{[}\href{https://museumandmemorial.eji.org/museum}{8}{]}. Dozens of
+organizations study the American prison system with the goal of
+reforming it, while private, for profit, prisons lobby to maintain the
+status quo. We have explored a few of the ways in which the American
+criminal justice system is biased, though understanding the biases is
+only the first step to formulating sound policy that can affect positive
+change. I hope the facts and opinions presented in this report become
+impetus to research further and understand the ways in which American
+society continues to disenfranchise Americans of color today.
 
 
     % Add a bibliography block to the postdoc
