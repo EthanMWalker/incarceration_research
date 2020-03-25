@@ -8,4 +8,4 @@ There is a lot of existing research exploring incarceration and the criminal jus
 In this project I am interested in exploring the ways in which the law is being applied differently to people in America. I will explore different ways to quantify claims about mass incarceration and racial bias. I will also be examining things that factor into sentence length including the offense committed and race. There are many things that contribute to sentence length, however the scope of this project is limited to these factors.
 
 ## Report
-To view my final report and analysis, look at the file "Race and Incarceration in American.pdf"
+To view my final report and analysis, look at the file "Race and Incarceration in American.pdf". For extra information, including citations and bibliography view the appendix in "Appendix.pdf".
