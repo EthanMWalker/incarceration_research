@@ -484,7 +484,12 @@ of the results I found
 Ensamble methods seemed imediately like the methods that I should be
 using in this project. I did not intially expect to successfully
 classify this data, however as I learned about how ensamble classifiers
-worked I
+worked I became more confident that I would get decent results.
+
+The primary reason that I though I would not get good results has to do
+with how I identified racial bias in the data. In my previous project I
+determined that there was racial bias in the criminal justice system
+based on
 
 \hypertarget{random-forest-classifier}{%
 \subsubsection{Random Forest
@@ -562,18 +567,6 @@ oob score is 0.70645
     here we can see that the most important features are sentence length,
 age, and offense. And the high OoB score is promising.
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{samp} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{200000}\PY{p}{)}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{RACE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RACE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{GENDER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{OFFENSE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{DETAINER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{FACILITY} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp\PYZus{}y} \PY{o}{=} \PY{n}{samp}\PY{o}{.}\PY{n}{RACE}
-        \PY{n}{samp\PYZus{}X} \PY{o}{=} \PY{n}{samp}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AGE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
-        \PY{n}{clf}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{samp\PYZus{}X}\PY{p}{,} \PY{n}{samp\PYZus{}y}\PY{p}{)}
-\end{Verbatim}
-
 \begin{Verbatim}[commandchars=\\\{\}]
 {\color{outcolor}Out[{\color{outcolor}5}]:} 0.420315
 \end{Verbatim}
@@ -586,67 +579,13 @@ better than chance, though not much better.
 Classification}\label{gradient-descent-boosted-classification}}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}34}]:} \PY{n}{samp} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{10000}\PY{p}{)}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{RACE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RACE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{GENDER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{OFFENSE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{DETAINER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{FACILITY} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp\PYZus{}y} \PY{o}{=} \PY{n}{samp}\PY{o}{.}\PY{n}{RACE}
-         \PY{n}{samp\PYZus{}X} \PY{o}{=} \PY{n}{samp}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AGE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor}35}]:} 
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{n}{param\PYZus{}grid} \PY{o}{=} \PY{p}{\PYZob{}}
-            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{.}\PY{l+m+mi}{01}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,}
-            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subsample}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{.}\PY{l+m+mi}{05}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,}
-            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}
-        \PY{p}{\PYZcb{}}
-        
-        \PY{n}{clf} \PY{o}{=} \PY{n}{GradientBoostingClassifier}\PY{p}{(}\PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{l+m+mi}{5000}\PY{p}{)}
-        
-        \PY{n}{s} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
-        \PY{c+c1}{\PYZsh{} clf = GridSearchCV(clf, param\PYZus{}grid, cv=5)}
-        \PY{n}{clf} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{samp\PYZus{}X}\PY{p}{,} \PY{n}{samp\PYZus{}y}\PY{p}{)}
-        \PY{n}{e} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
-        
-        \PY{c+c1}{\PYZsh{} clf = clf.best\PYZus{}estimator\PYZus{}}
-        \PY{c+c1}{\PYZsh{} clf = clf.fit(samp\PYZus{}X, samp\PYZus{}y)}
-        
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time is }\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{(e\PYZhy{}s)/60\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        
-        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GradientBoostedClf1.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{wb+}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-            \PY{n}{pickle}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{n}{clf}\PY{p}{,} \PY{n}{f}\PY{p}{)}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{samp} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{200000}\PY{p}{)}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{RACE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RACE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{GENDER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{OFFENSE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{DETAINER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{FACILITY} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp\PYZus{}y} \PY{o}{=} \PY{n}{samp}\PY{o}{.}\PY{n}{RACE}
-        \PY{n}{samp\PYZus{}X} \PY{o}{=} \PY{n}{samp}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AGE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
-        \PY{n}{clf}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{samp\PYZus{}X}\PY{p}{,} \PY{n}{samp\PYZus{}y}\PY{p}{)}
 \end{Verbatim}
 
 \begin{Verbatim}[commandchars=\\\{\}]
 {\color{outcolor}Out[{\color{outcolor}6}]:} 0.296365
 \end{Verbatim}
             
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}8}]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GradientBoostedClf.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-            \PY{n}{clf} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
-        \PY{c+c1}{\PYZsh{}     print(f\PYZsq{}oob improvement \PYZob{}clf.oob\PYZus{}improvement\PYZus{}\PYZcb{}\PYZsq{})}
-        \PY{c+c1}{\PYZsh{}     to\PYZus{}print = zip(clf.feature\PYZus{}importances\PYZus{},features)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{feature\PYZus{}importances\PYZus{}}\PY{p}{)}
-\end{Verbatim}
-
     \begin{Verbatim}[commandchars=\\\{\}]
 [0.02090027 0.24716962 0.25775903 0.10433119 0.03748648 0.33235341]
 
@@ -662,10 +601,6 @@ Classification}\label{gradient-descent-boosted-classification}}
 
     Here we see the same feature importances as we did with the random
 forest
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}39}]:} \PY{n}{clf}\PY{o}{.}\PY{n}{get\PYZus{}params}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
 
 \begin{Verbatim}[commandchars=\\\{\}]
 {\color{outcolor}Out[{\color{outcolor}39}]:} \{'criterion': 'friedman\_mse',
@@ -695,67 +630,9 @@ forest
 \subsection{XG Boost}\label{xg-boost}}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{samp} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{10000}\PY{p}{)}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{RACE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RACE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{GENDER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{OFFENSE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{DETAINER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp}\PY{o}{.}\PY{n}{FACILITY} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-        \PY{n}{samp\PYZus{}y} \PY{o}{=} \PY{n}{samp}\PY{o}{.}\PY{n}{RACE}
-        \PY{n}{samp\PYZus{}X} \PY{o}{=} \PY{n}{samp}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AGE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{param\PYZus{}grid} \PY{o}{=} \PY{p}{\PYZob{}}
-            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{.}\PY{l+m+mi}{01}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{,}
-            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{.}\PY{l+m+mi}{01}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{,}
-            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}lambda}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{.}\PY{l+m+mi}{01}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{,}
-            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gamma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{.}\PY{l+m+mi}{01}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}
-        \PY{p}{\PYZcb{}}
-        
-        \PY{n}{clf} \PY{o}{=} \PY{n}{xgboost}\PY{o}{.}\PY{n}{XGBClassifier}\PY{p}{(}\PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
-        \PY{n}{s} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
-        \PY{n}{clf} \PY{o}{=} \PY{n}{GridSearchCV}\PY{p}{(}\PY{n}{clf}\PY{p}{,} \PY{n}{param\PYZus{}grid}\PY{p}{,}\PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
-        \PY{n}{clf} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{samp\PYZus{}X}\PY{p}{,} \PY{n}{samp\PYZus{}y}\PY{p}{)}
-        
-        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XBG\PYZus{}fitted\PYZus{}grid.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wb+}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-            \PY{n}{pickle}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{n}{clf}\PY{p}{,} \PY{n}{f}\PY{p}{)}
-        
-        \PY{n}{clf} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
-        \PY{n}{clf} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{samp\PYZus{}X}\PY{p}{,} \PY{n}{samp\PYZus{}y}\PY{p}{)}
-        \PY{n}{e} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
-        
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time was }\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{(e\PYZhy{}s)/(60*60)\PYZcb{} hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-        
-        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XGBoostClf.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wb+}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-            \PY{n}{pickle}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{n}{clf}\PY{p}{,} \PY{n}{f}\PY{p}{)}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
 time was 1.7242353409528732 hours
 
     \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{samp} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{200000}\PY{p}{)}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{RACE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RACE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{GENDER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{OFFENSE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{DETAINER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{FACILITY} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp\PYZus{}y} \PY{o}{=} \PY{n}{samp}\PY{o}{.}\PY{n}{RACE}
-         \PY{n}{samp\PYZus{}X} \PY{o}{=} \PY{n}{samp}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AGE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
-         \PY{c+c1}{\PYZsh{} clf.score(samp\PYZus{}X,samp\PYZus{}y)}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}19}]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XGBoostClf.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-             \PY{n}{clf} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
-         \PY{c+c1}{\PYZsh{}     print(f\PYZsq{}oob improvement \PYZob{}clf.oob\PYZus{}improvement\PYZus{}\PYZcb{}\PYZsq{})}
-         \PY{c+c1}{\PYZsh{}     to\PYZus{}print = zip(clf.feature\PYZus{}importances\PYZus{},features)}
-             \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{samp\PYZus{}X}\PY{p}{,}\PY{n}{samp\PYZus{}y}\PY{p}{)}\PY{p}{)}
-             \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{feature\PYZus{}importances\PYZus{}}\PY{p}{)}
-\end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
 0.41374

@@ -1,0 +1,19 @@
+\BOOKMARK [1][-]{section.1}{Abstract}{}% 1
+\BOOKMARK [1][-]{section.2}{Problem Statement and Motivation}{}% 2
+\BOOKMARK [1][-]{section.3}{Data}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Source and Credibility}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Gathering and Cleaning}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{About the Data}{section.3}% 6
+\BOOKMARK [1][-]{section.4}{Possible questions}{}% 7
+\BOOKMARK [1][-]{section.5}{Methods}{}% 8
+\BOOKMARK [2][-]{subsection.5.1}{Ensamble Methods}{section.5}% 9
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Random Forest Classifier}{subsection.5.1}% 10
+\BOOKMARK [2][-]{subsection.5.2}{Gradient Descent Boosted Classification}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.3}{XG Boost}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.4}{K-Nearest Neighbors}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.5}{KD Trees}{section.5}% 14
+\BOOKMARK [1][-]{section.6}{GDA}{}% 15
+\BOOKMARK [1][-]{section.7}{Results}{}% 16
+\BOOKMARK [1][-]{section.8}{Analysis}{}% 17
+\BOOKMARK [1][-]{section.9}{Conclusion}{}% 18
+\BOOKMARK [1][-]{section.10}{References}{}% 19
