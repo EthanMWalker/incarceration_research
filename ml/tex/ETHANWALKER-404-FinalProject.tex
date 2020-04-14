@@ -290,14 +290,6 @@
     
 
     
-    \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/anaconda3/lib/python3.7/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader={\ldots} is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
-  data = yaml.load(f.read()) or \{\}
-/home/ethan/anaconda3/lib/python3.7/site-packages/distributed/config.py:20: YAMLLoadWarning: calling yaml.load() without Loader={\ldots} is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
-  defaults = yaml.load(f)
-
-    \end{Verbatim}
-
     \hypertarget{abstract}{%
 \section{Abstract}\label{abstract}}
 
@@ -427,44 +419,6 @@ Below I have images of my attempt to use PCA, T-SNE, and UMAP to cluster
 the data. It is apperent that it simply is not effective.
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_8_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/manifold/spectral\_embedding\_.py:237: UserWarning: Graph is not fully connected, spectral embedding may not work as expected.
-  warnings.warn("Graph is not fully connected, spectral embedding"
-
-    \end{Verbatim}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_9_1.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/manifold/spectral\_embedding\_.py:237: UserWarning: Graph is not fully connected, spectral embedding may not work as expected.
-  warnings.warn("Graph is not fully connected, spectral embedding"
-
-    \end{Verbatim}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_10_1.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/manifold/spectral\_embedding\_.py:237: UserWarning: Graph is not fully connected, spectral embedding may not work as expected.
-  warnings.warn("Graph is not fully connected, spectral embedding"
-
-    \end{Verbatim}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_11_1.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{center}
     \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_12_0.png}
     \end{center}
     { \hspace*{\fill} \\}
@@ -473,8 +427,8 @@ the data. It is apperent that it simply is not effective.
 clusterings given the dimension reduction, though it is representitive
 of the results I found.
 
-    \hypertarget{ensamble-methods}{%
-\subsection{Ensamble Methods}\label{ensamble-methods}}
+    \hypertarget{ensemble-methods}{%
+\subsection{Ensemble Methods}\label{ensemble-methods}}
 
 Ensamble methods seemed imediately like the methods that I should be
 using in this project. I did not intially expect to successfully
@@ -616,70 +570,8 @@ random forest model to save time. Fitting the following grid
 
 I found the following parameters
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator DecisionTreeRegressor from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
-  UserWarning)
-/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator GradientBoostingClassifier from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
-  UserWarning)
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-        ---------------------------------------------------------------------------
-
-        AttributeError                            Traceback (most recent call last)
-
-        <ipython-input-28-69247c951368> in <module>
-         11 with open('./pickles/GradientBoostedClf.pickle',"rb") as f:
-         12     clf = pickle.load(f)
-    ---> 13     score = clf.score(samp\_X,samp\_y)
-         14     print(f'score on a test size of \{size\} is \{score\}.')
-
-
-        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/base.py in score(self, X, y, sample\_weight)
-        367         """
-        368         from .metrics import accuracy\_score
-    --> 369         return accuracy\_score(y, self.predict(X), sample\_weight=sample\_weight)
-        370 
-        371 
-
-
-        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/\_gb.py in predict(self, X)
-       2163             The predicted values.
-       2164         """
-    -> 2165         raw\_predictions = self.decision\_function(X)
-       2166         encoded\_labels = \textbackslash{}
-       2167             self.loss\_.\_raw\_prediction\_to\_decision(raw\_predictions)
-
-
-        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/\_gb.py in decision\_function(self, X)
-       2119         """
-       2120         X = check\_array(X, dtype=DTYPE, order="C", accept\_sparse='csr')
-    -> 2121         raw\_predictions = self.\_raw\_predict(X)
-       2122         if raw\_predictions.shape[1] == 1:
-       2123             return raw\_predictions.ravel()
-
-
-        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/\_gb.py in \_raw\_predict(self, X)
-       1653     def \_raw\_predict(self, X):
-       1654         """Return the sum of the trees raw predictions (+ init estimator)."""
-    -> 1655         raw\_predictions = self.\_raw\_predict\_init(X)
-       1656         predict\_stages(self.estimators\_, X, self.learning\_rate,
-       1657                        raw\_predictions)
-
-
-        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/\_gb.py in \_raw\_predict\_init(self, X)
-       1647                                        dtype=np.float64)
-       1648         else:
-    -> 1649             raw\_predictions = self.loss\_.get\_init\_raw\_predictions(
-       1650                 X, self.init\_).astype(np.float64)
-       1651         return raw\_predictions
-
-
-        AttributeError: 'MultinomialDeviance' object has no attribute 'get\_init\_raw\_predictions'
-
-    \end{Verbatim}
+    The model scored slightly better than the random forest model, as
+expected giving the following score:
 
     \hypertarget{xgboost}{%
 \subsection{XGBoost}\label{xgboost}}
@@ -702,12 +594,7 @@ The grid I used was the following
 
 and I found the following parameters
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./pickles/XGBoostClf.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-            \PY{n}{clf} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{feature\PYZus{}importances\PYZus{}}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{get\PYZus{}params}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-\end{Verbatim}
+    XGBoost scores very well compared to the other methods that I used,
 
     \hypertarget{lightgbm}{%
 \subsection{LightGBM}\label{lightgbm}}
@@ -746,11 +633,14 @@ After this I did a grid search on the following grid
 
 and found --------
 
+    LightGBM scored comparible to XGBoost, as expected with what was
+reported in the paper introducing it
+
     \hypertarget{feature-importances}{%
 \subsection{Feature Importances}\label{feature-importances}}
 
 The only thing left to report about the results of my research is to
-examine the different assigned feature importances.
+examine the different assigned feature importances. They are as follows:
 
     \hypertarget{analysis}{%
 \section{Analysis}\label{analysis}}

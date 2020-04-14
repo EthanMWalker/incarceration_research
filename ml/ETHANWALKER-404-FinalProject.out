@@ -6,7 +6,7 @@
 \BOOKMARK [2][-]{subsection.3.3}{About the Data}{section.3}% 6
 \BOOKMARK [1][-]{section.4}{Methods}{}% 7
 \BOOKMARK [2][-]{subsection.4.1}{Dimension Reduction}{section.4}% 8
-\BOOKMARK [2][-]{subsection.4.2}{Ensamble Methods}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.2}{Ensemble Methods}{section.4}% 9
 \BOOKMARK [3][-]{subsubsection.4.2.1}{LightGBM}{subsection.4.2}% 10
 \BOOKMARK [1][-]{section.5}{Results}{}% 11
 \BOOKMARK [2][-]{subsection.5.1}{Random Forest Classifier}{section.5}% 12
