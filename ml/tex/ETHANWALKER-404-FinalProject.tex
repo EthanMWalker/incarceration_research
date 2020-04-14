@@ -402,14 +402,6 @@ Sample size for Asian: 35660
 
     \end{Verbatim}
 
-    \hypertarget{possible-questions}{%
-\section{Possible questions}\label{possible-questions}}
-
-can we use ml techniques to correctly classify this data? which ones
-fail and why? can we create a predictive model for sentence lengths?
-should sentencing be offloaded to a ml algorithm? what does it mean to
-have an effective classfifier for this data set.
-
     \hypertarget{methods}{%
 \section{Methods}\label{methods}}
 
@@ -417,6 +409,9 @@ Before I begin discussing the methods that I did use, I will talk about
 some of the methods that I did not use. There are manay techniques that
 are not applicable to this data. For example, since this data set is not
 a time series models like ARMA and HMM are not applicable here.
+
+\hypertarget{dimension-reduction}{%
+\subsection{Dimension Reduction}\label{dimension-reduction}}
 
 A method that I attempted to use, but found little success with were
 dimension reduction tools like PCA, T-SNE, and UMAP. This dimension
@@ -500,75 +495,6 @@ hope that I could get good results with these methods.
 The methods that I attempted were the following: random forrest
 classifier, gradient descent boosted classifier, XGBoost, and LightGBM.
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-Max Depth = 85 
-Number of Estimators = 2100.
-
-    \end{Verbatim}
-
-    
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}6}]:} 0.296365
-\end{Verbatim}
-            
-    \begin{Verbatim}[commandchars=\\\{\}]
-[0.02090027 0.24716962 0.25775903 0.10433119 0.03748648 0.33235341]
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/.local/lib/python3.7/site-packages/sklearn/base.py:306: UserWarning: Trying to unpickle estimator DecisionTreeRegressor from version 0.20.3 when using version 0.21.3. This might lead to breaking code or invalid results. Use at your own risk.
-  UserWarning)
-/home/ethan/.local/lib/python3.7/site-packages/sklearn/base.py:306: UserWarning: Trying to unpickle estimator GradientBoostingClassifier from version 0.20.3 when using version 0.21.3. This might lead to breaking code or invalid results. Use at your own risk.
-  UserWarning)
-
-    \end{Verbatim}
-
-    Here we see the same feature importances as we did with the random
-forest
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}39}]:} \{'criterion': 'friedman\_mse',
-          'init': None,
-          'learning\_rate': 0.34,
-          'loss': 'deviance',
-          'max\_depth': 4,
-          'max\_features': None,
-          'max\_leaf\_nodes': None,
-          'min\_impurity\_decrease': 0.0,
-          'min\_impurity\_split': None,
-          'min\_samples\_leaf': 1,
-          'min\_samples\_split': 2,
-          'min\_weight\_fraction\_leaf': 0.0,
-          'n\_estimators': 600,
-          'n\_iter\_no\_change': None,
-          'presort': 'auto',
-          'random\_state': None,
-          'subsample': 1.0,
-          'tol': 0.0001,
-          'validation\_fraction': 0.1,
-          'verbose': 0,
-          'warm\_start': False\}
-\end{Verbatim}
-            
-    \hypertarget{xgboost}{%
-\subsubsection{XGBoost}\label{xgboost}}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-0.355695
-[0.2596316  0.132617   0.1624777  0.12035192 0.18768501 0.13723671]
-\{'objective': 'multi:softprob', 'base\_score': 0.5, 'booster': None, 'colsample\_bylevel': 1, 'colsample\_bynode': 1, 'colsample\_bytree': 1, 'gamma': 0.01, 'gpu\_id': -1, 'importance\_type': 'gain', 'interaction\_constraints': None, 'learning\_rate': 1.0, 'max\_delta\_step': 0, 'max\_depth': 6, 'min\_child\_weight': 1, 'missing': nan, 'monotone\_constraints': None, 'n\_estimators': 100, 'n\_jobs': 0, 'num\_parallel\_tree': 1, 'random\_state': 0, 'reg\_alpha': 0.2575, 'reg\_lambda': 0.2575, 'scale\_pos\_weight': None, 'subsample': 1, 'tree\_method': None, 'validate\_parameters': False, 'verbosity': None, 'verbose': 2\}
-
-    \end{Verbatim}
-
-    This score is very promiseing since the score is about double chance.
-There actually is a lot of correct classification going on here.
-
-Interestingly however, it seems that the feature importances are very
-different for this model. Gender is the most important feature nad every
-other feature is about equally important.
-
     \hypertarget{lightgbm}{%
 \subsubsection{LightGBM}\label{lightgbm}}
 
@@ -616,17 +542,6 @@ can be combined. This reduces the complexity of building histograms from
 \(O(\#data \times \#feature)\) to \(O(\#data \times \#bundle)\) and if
 \(\#bundle << \#feature\) then the total complexity is greatly reduced.
 
-    Note that a max depth \textless{}= 0 indicates that the depth is
-unbounded. Searching over this grid of size 4000 is something that I
-would have never even tried for XGBoost or any other GBDT method, though
-it still did take slightly more than 20 hours to fit.
-
-After this I did a grid search on the following grid
-
-\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}reg\_alpha\textquotesingle{}:\ np.linspace(.1,1,10),\ \ \ \ \ \textquotesingle{}reg\_lambda\textquotesingle{}:\ np.linspace(.1,1,10)\ \}}
-
-and found --------
-
     \hypertarget{results}{%
 \section{Results}\label{results}}
 
@@ -650,7 +565,14 @@ In my gridsearch I found the best parameters to be the following
 especially given the amount of time it took to train which was 5.32
 hours on the following parameter grid
 
-\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}n\_estimators\textquotesingle{}:\ np.arange(100,5100,500),\ \ \ \ \ \textquotesingle{}max\_depth\textquotesingle{}:\ np.arange(5,100,10)\ \}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{param_grid }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{'n_estimators'}\NormalTok{: np.arange(}\DecValTok{100}\NormalTok{,}\DecValTok{5100}\NormalTok{,}\DecValTok{500}\NormalTok{),}
+    \StringTok{'max_depth'}\NormalTok{: np.arange(}\DecValTok{5}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
 
 which amounts to a 100 parameter grid.
 
@@ -683,16 +605,16 @@ get better results with this model. I began by doing another grid
 search, but I used some of the results from the previous search on the
 random forest model to save time. Fitting the following grid
 
-\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}learning\_rate\textquotesingle{}:\ np.linspace(.01,1,10),\ \ \ \ \ \textquotesingle{}subsample\textquotesingle{}:\ np.linspace(.05,1,10)\ \}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{param_grid }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{'learning_rate'}\NormalTok{: np.linspace(.}\DecValTok{01}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{),}
+    \StringTok{'subsample'}\NormalTok{: np.linspace(.}\DecValTok{05}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
 
 I found the following parameters
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./pickles/GradientBoostedClf1.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-            \PY{n}{clf} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Max Depth = }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{get\PYZus{}params}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Estimators = }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{get\PYZus{}params}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
-\end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
 /home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator DecisionTreeRegressor from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
@@ -759,10 +681,6 @@ I found the following parameters
 
     \end{Verbatim}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} 
-\end{Verbatim}
-
     \hypertarget{xgboost}{%
 \subsection{XGBoost}\label{xgboost}}
 
@@ -772,7 +690,15 @@ of ensemble classifiers.
 
 The grid I used was the following
 
-\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}reg\_alpha\textquotesingle{}:np.linspace(.01,1,10),\ \ \ \ \ \textquotesingle{}reg\_lambda\textquotesingle{}:np.linspace(.01,1,10),\ \ \ \ \ \textquotesingle{}gamma\textquotesingle{}:np.linspace(.01,1,10)\ \}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{param_grid }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{'reg_alpha'}\NormalTok{:np.linspace(.}\DecValTok{01}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{),}
+    \StringTok{'reg_lambda'}\NormalTok{:np.linspace(.}\DecValTok{01}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{),}
+    \StringTok{'gamma'}\NormalTok{:np.linspace(.}\DecValTok{01}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
 
 and I found the following parameters
 
@@ -789,8 +715,36 @@ and I found the following parameters
 Because I was very new to LightGBM when I began, I did a grid search on
 the following grid
 
-\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}boosting\_type\textquotesingle{}:\ {[}\textquotesingle{}gbdt\textquotesingle{},\textquotesingle{}dart\textquotesingle{},\textquotesingle{}goss\textquotesingle{}{]},\ \ \ \ \ \textquotesingle{}learning\_rate\textquotesingle{}:\ np.linspace(.01,1,10),\ \ \ \ \ \textquotesingle{}n\_estimators\textquotesingle{}:\ np.arange(100,1100,100),\ \ \ \ \ \textquotesingle{}max\_depth\textquotesingle{}:\ np.arange(0,10)\ \}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{param_grid }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{'boosting_type'}\NormalTok{: [}\StringTok{'gbdt'}\NormalTok{,}\StringTok{'dart'}\NormalTok{,}\StringTok{'goss'}\NormalTok{],}
+    \StringTok{'learning_rate'}\NormalTok{: np.linspace(.}\DecValTok{01}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{),}
+    \StringTok{'n_estimators'}\NormalTok{: np.arange(}\DecValTok{100}\NormalTok{,}\DecValTok{1100}\NormalTok{,}\DecValTok{100}\NormalTok{),}
+    \StringTok{'max_depth'}\NormalTok{: np.arange(}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
 and I found the following best parameters
+
+    Note that a max depth \textless{}= 0 indicates that the depth is
+unbounded. Searching over this grid of size 4000 is something that I
+would have never even tried for XGBoost or any other GBDT method, though
+it still did take slightly more than 20 hours to fit
+
+After this I did a grid search on the following grid
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{param_grid }\OperatorTok{=}\NormalTok{ \{}
+    \StringTok{'reg_alpha'}\NormalTok{: np.linspace(.}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{),}
+    \StringTok{'reg_lambda'}\NormalTok{: np.linspace(.}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+and found --------
 
     \hypertarget{feature-importances}{%
 \subsection{Feature Importances}\label{feature-importances}}
