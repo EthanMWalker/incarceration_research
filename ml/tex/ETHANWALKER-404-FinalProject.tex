@@ -476,7 +476,7 @@ the data. It is apperent that it simply is not effective.
     
     This is only a small sample of things that I tried to do to get useful
 clusterings given the dimension reduction, though it is representitive
-of the results I found
+of the results I found.
 
     \hypertarget{ensamble-methods}{%
 \subsection{Ensamble Methods}\label{ensamble-methods}}
@@ -489,98 +489,24 @@ worked I became more confident that I would get decent results.
 The primary reason that I though I would not get good results has to do
 with how I identified racial bias in the data. In my previous project I
 determined that there was racial bias in the criminal justice system
-based on
+based on the kurtosis of the distribution of sentence lenghts, when you
+block inmates by race. Interpreted this means that minorities are much
+more likely to receive an extreme sentence length than a white person
+is. This condition is very subtle and I did not think that it would be
+easily detectable by machine learning methods. However, ensamble methods
+only need each member to do slightly better than random, so there was
+hope that I could get good results with these methods.
 
-\hypertarget{random-forest-classifier}{%
-\subsubsection{Random Forest
-Classifier}\label{random-forest-classifier}}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}44}]:} 
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}46}]:} \PY{n}{samp} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{20000}\PY{p}{)}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{RACE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RACE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{GENDER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{OFFENSE} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{DETAINER} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp}\PY{o}{.}\PY{n}{FACILITY} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{factorize}\PY{p}{(}\PY{n}{samp}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}
-         \PY{n}{samp\PYZus{}y} \PY{o}{=} \PY{n}{samp}\PY{o}{.}\PY{n}{RACE}
-         \PY{n}{samp\PYZus{}X} \PY{o}{=} \PY{n}{samp}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GENDER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AGE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OFFENSE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FACILITY}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DETAINER}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SENTENCE DAYS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
-         
-         \PY{n}{param\PYZus{}grid} \PY{o}{=} \PY{p}{\PYZob{}}
-             \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{400}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{,}
-             \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,}
-             \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}
-         \PY{p}{\PYZcb{}}
-         
-         
-         
-         \PY{n}{clf} \PY{o}{=} \PY{n}{RandomForestClassifier}\PY{p}{(}\PY{n}{oob\PYZus{}score}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
-         
-         \PY{n}{s} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
-         \PY{n}{clf} \PY{o}{=} \PY{n}{GridSearchCV}\PY{p}{(}\PY{n}{clf}\PY{p}{,} \PY{n}{param\PYZus{}grid}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
-         \PY{n}{clf} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{samp\PYZus{}X}\PY{p}{,} \PY{n}{samp\PYZus{}y}\PY{p}{)}
-         \PY{n}{e} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
-         \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time to train is }\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{(e\PYZhy{}s)/60\PYZcb{} minutes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         
-         \PY{n}{clf} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
-         \PY{n}{clf} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{samp\PYZus{}X}\PY{p}{,} \PY{n}{samp\PYZus{}y}\PY{p}{)}
-         \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{oob score is }\PY{l+s+si}{\PYZob{}clf.oob\PYZus{}score\PYZus{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         
-         \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RandomForestClf.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{wb+}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-             \PY{n}{pickle}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{n}{clf}\PY{p}{,} \PY{n}{f}\PY{p}{)}
-\end{Verbatim}
+The methods that I attempted were the following: random forrest
+classifier, gradient descent boosted classifier, XGBoost, and LightGBM.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-time to train is 223.73655876318614 minutes
-oob score is 0.70645
+Max Depth = 85 
+Number of Estimators = 2100.
 
     \end{Verbatim}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}4}]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RandomForestClf.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
-            \PY{n}{clf} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{oob\PYZus{}score\PYZus{}}\PY{p}{)}
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{feature\PYZus{}importances\PYZus{}}\PY{p}{)}
-\end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/.local/lib/python3.7/site-packages/sklearn/base.py:306: UserWarning: Trying to unpickle estimator DecisionTreeClassifier from version 0.20.3 when using version 0.21.3. This might lead to breaking code or invalid results. Use at your own risk.
-  UserWarning)
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-0.70645
-[0.01022266 0.26942225 0.2124008  0.17300606 0.0338177  0.30113052]
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/.local/lib/python3.7/site-packages/sklearn/base.py:306: UserWarning: Trying to unpickle estimator RandomForestClassifier from version 0.20.3 when using version 0.21.3. This might lead to breaking code or invalid results. Use at your own risk.
-  UserWarning)
-
-    \end{Verbatim}
-
-    here we can see that the most important features are sentence length,
-age, and offense. And the high OoB score is promising.
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}5}]:} 0.420315
-\end{Verbatim}
-            
-    However the score is not great. Random chance would be .2, so it does do
-better than chance, though not much better.
-
-    \hypertarget{gradient-descent-boosted-classification}{%
-\subsection{Gradient Descent Boosted
-Classification}\label{gradient-descent-boosted-classification}}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}35}]:} 
-\end{Verbatim}
+    
 
 \begin{Verbatim}[commandchars=\\\{\}]
 {\color{outcolor}Out[{\color{outcolor}6}]:} 0.296365
@@ -626,17 +552,13 @@ forest
           'warm\_start': False\}
 \end{Verbatim}
             
-    \hypertarget{xg-boost}{%
-\subsection{XG Boost}\label{xg-boost}}
+    \hypertarget{xgboost}{%
+\subsubsection{XGBoost}\label{xgboost}}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-time was 1.7242353409528732 hours
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-0.41374
+0.355695
 [0.2596316  0.132617   0.1624777  0.12035192 0.18768501 0.13723671]
+\{'objective': 'multi:softprob', 'base\_score': 0.5, 'booster': None, 'colsample\_bylevel': 1, 'colsample\_bynode': 1, 'colsample\_bytree': 1, 'gamma': 0.01, 'gpu\_id': -1, 'importance\_type': 'gain', 'interaction\_constraints': None, 'learning\_rate': 1.0, 'max\_delta\_step': 0, 'max\_depth': 6, 'min\_child\_weight': 1, 'missing': nan, 'monotone\_constraints': None, 'n\_estimators': 100, 'n\_jobs': 0, 'num\_parallel\_tree': 1, 'random\_state': 0, 'reg\_alpha': 0.2575, 'reg\_lambda': 0.2575, 'scale\_pos\_weight': None, 'subsample': 1, 'tree\_method': None, 'validate\_parameters': False, 'verbosity': None, 'verbose': 2\}
 
     \end{Verbatim}
 
@@ -647,43 +569,255 @@ Interestingly however, it seems that the feature importances are very
 different for this model. Gender is the most important feature nad every
 other feature is about equally important.
 
-    \hypertarget{k-nearest-neighbors}{%
-\subsection{K-Nearest Neighbors}\label{k-nearest-neighbors}}
+    \hypertarget{lightgbm}{%
+\subsubsection{LightGBM}\label{lightgbm}}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} 
-\end{Verbatim}
+LightGBM is an attempt to improve upon the efficiency, both temporally
+and spatially, of different grandient boosted decision tree (GBDT)
+algorithms such as XGBoost. This algoritm was developed by a team at
+Microsoft and it uses two novel techniques to imporove GBDT algorithms.
+The baseline comparison used was against XGBoost, since the team found
+this method to be the best performer of the commonly used GBDT
+algorithms.
 
-    \hypertarget{kd-trees}{%
-\subsection{KD Trees}\label{kd-trees}}
+By analyzing GBDT algorithms the team found that the most expensive
+parts of the process is learning the decision trees and the most
+expensive part of learning the decision trees is finding the best split
+points. They decided to use a histogram based approach for efficiency.
+This process is dominated by the histogram building which has a
+complexity of \(O(\#data \times \#feature)\). Now the goal is to reduce
+the feature number or the number of data points.
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} 
-\end{Verbatim}
+\hypertarget{gradient-based-one-side-sampling}{%
+\paragraph{Gradient-based One-Side
+Sampling}\label{gradient-based-one-side-sampling}}
 
-    \hypertarget{gda}{%
-\section{GDA}\label{gda}}
+This is the first novel technique proposed by the Microsoft team. It is
+a sampling method that is meant to reduce the number of data instances
+while maintaing accuracy. The main idea here is that data points with
+small gradient are usually ignored, since the model is already will
+trained on those data instances. However, the changes that occur by
+ignoring the data will small gradient may reduce the accuracy of the
+model once it is learned. Therefore GOSS examines all of the high
+gradient data and a random sample of the small gradient data. This
+method can maximize the amount of relevent data used in the training of
+the model without handicapping the accuracy completely.
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} 
-\end{Verbatim}
+\hypertarget{exclusive-feature-bundling}{%
+\paragraph{Exclusive Feature
+Bundling}\label{exclusive-feature-bundling}}
+
+This is the second novel technique and its goal is to reduce the number
+of features. This technique relies on the fact that high dimensional
+data tend to be sparse, and therefore there are likely large bundles of
+features that are mutually exclusive are nearly mutually exclusive.
+These features can be bundled into a single feature and their histograms
+can be combined. This reduces the complexity of building histograms from
+\(O(\#data \times \#feature)\) to \(O(\#data \times \#bundle)\) and if
+\(\#bundle << \#feature\) then the total complexity is greatly reduced.
+
+    Note that a max depth \textless{}= 0 indicates that the depth is
+unbounded. Searching over this grid of size 4000 is something that I
+would have never even tried for XGBoost or any other GBDT method, though
+it still did take slightly more than 20 hours to fit.
+
+After this I did a grid search on the following grid
+
+\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}reg\_alpha\textquotesingle{}:\ np.linspace(.1,1,10),\ \ \ \ \ \textquotesingle{}reg\_lambda\textquotesingle{}:\ np.linspace(.1,1,10)\ \}}
+
+and found --------
 
     \hypertarget{results}{%
 \section{Results}\label{results}}
 
-\hypertarget{analysis}{%
+\hypertarget{random-forest-classifier}{%
+\subsection{Random Forest Classifier}\label{random-forest-classifier}}
+
+The random forest classifier was an easy place to begin in my attempt to
+find a successful classifier. It is a simple method and would likely
+give me a good lower bound on the success that I would have.
+
+In using the random forest classifier I did a gridsearch for the best
+parameters. The parameters I decided to seach over are the number of
+trees in the classifier and the maximum depth of the trees in the
+classifier. I chose this because having more trees in the classifier
+will improve the accuracy, however if the depth of each of the trees in
+unbounded then overfitting of the individual trees may become an issue.
+
+In my gridsearch I found the best parameters to be the following
+
+    My results with the random forest classifier were rather disappointing,
+especially given the amount of time it took to train which was 5.32
+hours on the following parameter grid
+
+\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}n\_estimators\textquotesingle{}:\ np.arange(100,5100,500),\ \ \ \ \ \textquotesingle{}max\_depth\textquotesingle{}:\ np.arange(5,100,10)\ \}}
+
+which amounts to a 100 parameter grid.
+
+The out-of-box score was rather promising at .70 however the method
+scored barely better than chance. Here is a scoring of the model I ran:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator DecisionTreeClassifier from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
+  UserWarning)
+/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator RandomForestClassifier from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
+  UserWarning)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+score on a test size of 500000 is 0.286044
+
+    \end{Verbatim}
+
+    The scoring here is lackluster to say the least though it did give me
+hope for more complex methods to preform better.
+
+\hypertarget{gradient-descent-boosted-classification}{%
+\subsection{Gradient Descent Boosted
+Classification}\label{gradient-descent-boosted-classification}}
+
+This method is an obvious next step after a random forest. With the
+ability to alter the subsample rate and the learning rate, I expect to
+get better results with this model. I began by doing another grid
+search, but I used some of the results from the previous search on the
+random forest model to save time. Fitting the following grid
+
+\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}learning\_rate\textquotesingle{}:\ np.linspace(.01,1,10),\ \ \ \ \ \textquotesingle{}subsample\textquotesingle{}:\ np.linspace(.05,1,10)\ \}}
+
+I found the following parameters
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./pickles/GradientBoostedClf1.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+            \PY{n}{clf} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Max Depth = }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{get\PYZus{}params}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Estimators = }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{get\PYZus{}params}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator DecisionTreeRegressor from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
+  UserWarning)
+/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator GradientBoostingClassifier from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
+  UserWarning)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        AttributeError                            Traceback (most recent call last)
+
+        <ipython-input-28-69247c951368> in <module>
+         11 with open('./pickles/GradientBoostedClf.pickle',"rb") as f:
+         12     clf = pickle.load(f)
+    ---> 13     score = clf.score(samp\_X,samp\_y)
+         14     print(f'score on a test size of \{size\} is \{score\}.')
+
+
+        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/base.py in score(self, X, y, sample\_weight)
+        367         """
+        368         from .metrics import accuracy\_score
+    --> 369         return accuracy\_score(y, self.predict(X), sample\_weight=sample\_weight)
+        370 
+        371 
+
+
+        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/\_gb.py in predict(self, X)
+       2163             The predicted values.
+       2164         """
+    -> 2165         raw\_predictions = self.decision\_function(X)
+       2166         encoded\_labels = \textbackslash{}
+       2167             self.loss\_.\_raw\_prediction\_to\_decision(raw\_predictions)
+
+
+        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/\_gb.py in decision\_function(self, X)
+       2119         """
+       2120         X = check\_array(X, dtype=DTYPE, order="C", accept\_sparse='csr')
+    -> 2121         raw\_predictions = self.\_raw\_predict(X)
+       2122         if raw\_predictions.shape[1] == 1:
+       2123             return raw\_predictions.ravel()
+
+
+        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/\_gb.py in \_raw\_predict(self, X)
+       1653     def \_raw\_predict(self, X):
+       1654         """Return the sum of the trees raw predictions (+ init estimator)."""
+    -> 1655         raw\_predictions = self.\_raw\_predict\_init(X)
+       1656         predict\_stages(self.estimators\_, X, self.learning\_rate,
+       1657                        raw\_predictions)
+
+
+        \textasciitilde{}/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/\_gb.py in \_raw\_predict\_init(self, X)
+       1647                                        dtype=np.float64)
+       1648         else:
+    -> 1649             raw\_predictions = self.loss\_.get\_init\_raw\_predictions(
+       1650                 X, self.init\_).astype(np.float64)
+       1651         return raw\_predictions
+
+
+        AttributeError: 'MultinomialDeviance' object has no attribute 'get\_init\_raw\_predictions'
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} 
+\end{Verbatim}
+
+    \hypertarget{xgboost}{%
+\subsection{XGBoost}\label{xgboost}}
+
+XGBoost was the best ensemble classifier of which I was aware when I
+began this project, so it was the obvious conclusion to my exploration
+of ensemble classifiers.
+
+The grid I used was the following
+
+\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}reg\_alpha\textquotesingle{}:np.linspace(.01,1,10),\ \ \ \ \ \textquotesingle{}reg\_lambda\textquotesingle{}:np.linspace(.01,1,10),\ \ \ \ \ \textquotesingle{}gamma\textquotesingle{}:np.linspace(.01,1,10)\ \}}
+
+and I found the following parameters
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./pickles/XGBoostClf.pickle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+            \PY{n}{clf} \PY{o}{=} \PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{feature\PYZus{}importances\PYZus{}}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{clf}\PY{o}{.}\PY{n}{get\PYZus{}params}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \hypertarget{lightgbm}{%
+\subsection{LightGBM}\label{lightgbm}}
+
+Because I was very new to LightGBM when I began, I did a grid search on
+the following grid
+
+\texttt{param\_grid\ =\ \{\ \ \ \ \ \textquotesingle{}boosting\_type\textquotesingle{}:\ {[}\textquotesingle{}gbdt\textquotesingle{},\textquotesingle{}dart\textquotesingle{},\textquotesingle{}goss\textquotesingle{}{]},\ \ \ \ \ \textquotesingle{}learning\_rate\textquotesingle{}:\ np.linspace(.01,1,10),\ \ \ \ \ \textquotesingle{}n\_estimators\textquotesingle{}:\ np.arange(100,1100,100),\ \ \ \ \ \textquotesingle{}max\_depth\textquotesingle{}:\ np.arange(0,10)\ \}}
+and I found the following best parameters
+
+    \hypertarget{feature-importances}{%
+\subsection{Feature Importances}\label{feature-importances}}
+
+The only thing left to report about the results of my research is to
+examine the different assigned feature importances.
+
+    \hypertarget{analysis}{%
 \section{Analysis}\label{analysis}}
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-    \hypertarget{references}{%
+\hypertarget{references}{%
 \section{References}\label{references}}
 
 \href{https://www.aclu.org/other/statement-concern-about-predictive-policing-aclu-and-16-civil-rights-privacy-racial-justice}{{[}1{]}}
 Statement Of Concern About Predictive Policing By Aclu and 16 Civil
 Rights Privacy, Racial Justice, and Technology Organizations
 https://www.aclu.org/other/statement-concern-about-predictive-policing-aclu-and-16-civil-rights-privacy-racial-justice
+
+\href{http://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf}{{[}2{]}}
+Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., \ldots{} Liu,
+T.-Y. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision
+Tree. Advances in Neural Information Processing Systems 30 (NIPS 2017).
+Retrieved from
+http://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf
 
 
     % Add a bibliography block to the postdoc
