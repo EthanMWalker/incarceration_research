@@ -24,19 +24,19 @@
     % We will generate all images so they have a width \maxwidth. This means
     % that they will get their normal width if they fit onto the page, but
     % are scaled down if they would overflow the margins.
-    \makeatletter
-    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
-    \else\Gin@nat@width\fi}
-    \makeatother
-    \let\Oldincludegraphics\includegraphics
-    % Set max figure width to be 80% of text width, for now hardcoded.
-    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
-    % Ensure that by default, figures have no caption (until we provide a
-    % proper Figure object with a Caption API and a way to capture that
-    % in the conversion process - todo).
-    \usepackage{caption}
-    \DeclareCaptionLabelFormat{nolabel}{}
-    \captionsetup{labelformat=nolabel}
+    % \makeatletter
+    % \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    % \else\Gin@nat@width\fi}
+    % \makeatother
+    % \let\Oldincludegraphics\includegraphics
+    % % Set max figure width to be 80% of text width, for now hardcoded.
+    % \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % % Ensure that by default, figures have no caption (until we provide a
+    % % proper Figure object with a Caption API and a way to capture that
+    % % in the conversion process - todo).
+    % \usepackage{caption}
+    % \DeclareCaptionLabelFormat{nolabel}{}
+    % \captionsetup{labelformat=nolabel}
 
     \usepackage{adjustbox} % Used to constrain images to a maximum size 
     \usepackage{xcolor} % Allow colors to be defined
@@ -51,7 +51,7 @@
     }
     \usepackage{upquote} % Upright quotes for verbatim code
     \usepackage{eurosym} % defines \euro
-    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    % \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
     \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
     \usepackage{fancyvrb} % verbatim replacement that allows latex
     \usepackage{grffile} % extends the file name processing of package graphics 
@@ -66,8 +66,13 @@
     \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
                                 % normalem makes italics be italics, not underlines
     \usepackage{mathrsfs}
+    \usepackage{float}
+    \usepackage{biblatex}
+    \usepackage[english]{babel}
+    \addbibresource{resources.bib}
     
-
+    % \bibliographystyle{annotate}
+    % \bibliography{resources.bib}
     
     
     % Colors for the hyperref package
@@ -151,12 +156,12 @@
     % Document title
     \title{Race and Incarceration in America}
     
-    
+    \date{December 12, 2019}
     
     
     
 
-    % Pygments definitions
+%     % Pygments definitions
     
 \makeatletter
 \def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
@@ -259,7 +264,7 @@
 \makeatother
 
 
-    % Exact colors from NB
+%     % Exact colors from NB
     \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
     \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
 
@@ -290,6 +295,8 @@
     
 
     
+
+    
     \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
@@ -299,8 +306,7 @@ committed. This system has been slowly evolving as our society and
 culture have been changing. Many things that Americans take as natural
 in our criminal justice systems are quite abnormal among justice systems
 worldwide. Since the 1990s, America has seen a drastic increase in the
-incarcerated population, despite a sharp decrease in crime
-{[}\href{https://www.nytimes.com/2008/04/23/world/americas/23iht-23prison.12253738.html}{1}{]}.
+incarcerated population, despite a sharp decrease in crime\cite{nyt1}.
 Many Americans may believe that this drastic increase in incarceration
 is a result of increased rates of crime, and that this heightened rate
 is natural and just. To many, it is unclear who is most affected by this
@@ -311,8 +317,7 @@ There is a lot of existing research exploring incarceration and the
 criminal justice system. There is a consensus that America incarcerates
 a larger proportion of its population than any other nation and that
 people of color are disproportionately affected by this high
-incarceration rate
-{[}\href{https://www.nytimes.com/2008/04/23/world/americas/23iht-23prison.12253738.html}{2}{]}.
+incarceration rate\cite{nyt2}.
 
 In this project I am interested in exploring the ways in which the law
 is being applied differently to people in America. I will explore
@@ -490,10 +495,12 @@ committed crime in the 90s were committing more than half of all crime,
 I would argue that there is some other cause for the decrease in crime
 rates.
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_19_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/incar_trends.pdf}
+    \caption{Incarceration rates over time}
+    \label{fig:my_label}
+\end{figure}
     
     \hypertarget{artifacts-of-prison-policy}{%
 \subsection{Artifacts of Prison
@@ -504,10 +511,12 @@ However there are standard sentence lengths and mandatory minimum
 sentences that influence the distribution of sentence lenghts, making
 the distribution not smooth.
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_21_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/sent_dist.pdf}
+    \caption{Distribution of sentences across all inmates in inmates.csv}
+    \label{fig:my_label}
+\end{figure}
     
     \hypertarget{racial-disparities}{%
 \subsection{Racial Disparities}\label{racial-disparities}}
@@ -528,10 +537,12 @@ Hispanics. This means that in states with a low incarceration rate for
 Blacks, the Black incarceration rate is higher than the highest rates
 seen among Whites.
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_23_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/state_incar_rates.pdf}
+    \caption{Distribution of states' mean incarceration rate, blocked by race}
+    \label{fig:my_label}
+\end{figure}
     
     \hypertarget{distribution-of-sentence-lengths}{%
 \subsubsection{Distribution of Sentence
@@ -574,25 +585,28 @@ of different races are sentenced. While the first two quartiles of each
 racial group's sentence lengths are similar, we see that the top two
 quartiles vary widely.
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_27_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6]{images/sentence_boxplot.png}
+    \caption{Boxplot distribution of sentence length for inmates in individuals.csv, blocked by race}
+    \label{fig:my_label}
+\end{figure}
     
     The following histograms will assist us in understanding these
 distributions.
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_29_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/race_sentence_dist.pdf}
+    \caption{Histogram distribution of sentence length for inmates in individuals.csv, blocked by race}
+    \label{fig:my_label}
+\end{figure}
     
     While it may appear that these sentences are distributed fairly
 equivalently, we can examine the kurtosis of the distribution to
 understand how much of the weight of the distribution is found in the
 extremities. Groups with high kurtosis have a higher probability of
-receiving a sentence that is far from the mean
-{[}\href{https://www.tandfonline.com/doi/full/10.1080/00031305.2014.917055?scroll=top\&needAccess=true}{7}{]}.
+receiving a sentence that is far from the mean\cite{kurt}.
 
 As we can see, Blacks and Hispanics have the greatest kurtosis, meaning
 they are much more likely to receive an extreme sentence length. It is
@@ -645,10 +659,12 @@ races are treated differently, when in comparable situations.
 We will begin by examining the distribution of sentence lengths among
 offenders convicted of ``criminal liability for another person''.
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_35_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6]{images/crim_lib_box.pdf}
+    \caption{Distribution of sentence length of inmates convicted of criminal liability, blocked by race}
+    \label{fig:my_label}
+\end{figure}
     
     Again we can notice that the distributions don't seem to be all that
 different. However, we can examine kurtosis to see if there is a
@@ -672,10 +688,12 @@ criminal liability.
 Following is a sample of a few offenses, the distributions of sentence
 lengths, and the kurtosis of those distributions.
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_39_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6]{images/MURDEr_box.pdf}
+    \caption{Distribution of sentence length of inmates convicted of murder, blocked by race}
+    \label{fig:my_label}
+\end{figure}
     
     \begin{Verbatim}[commandchars=\\\{\}]
 White Kurtosis: 3.815929855470677
@@ -684,10 +702,12 @@ Hispanic Kurtosis: 23.661202825848072
 
     \end{Verbatim}
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_39_2.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6]{images/SALE OF CO_box.pdf}
+    \caption{Distribution of sentence length of inmates convicted of sale of controlled substances, blocked by race}
+    \label{fig:my_label}
+\end{figure}
     
     \begin{Verbatim}[commandchars=\\\{\}]
 White Kurtosis: 3.2523247666826185
@@ -696,10 +716,12 @@ Hispanic Kurtosis: 40.024525483281515
 
     \end{Verbatim}
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_39_4.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6]{images/SALE OF HA_box.pdf}
+    \caption{Distribution of sentence length of inmates convicted of sale of hallucinogen/narcotic substance, blocked by race}
+    \label{fig:my_label}
+\end{figure}
     
     \begin{Verbatim}[commandchars=\\\{\}]
 White Kurtosis: 26.642120595723625
@@ -708,10 +730,12 @@ Hispanic Kurtosis: 0.751155900894612
 
     \end{Verbatim}
 
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Race and Incarceration in America_files/Race and Incarceration in America_39_6.png}
-    \end{center}
-    { \hspace*{\fill} \\}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6]{images/ROBBERY, F_box.pdf}
+    \caption{Distribution of sentence length of inmates convicted of robbery, blocked by race}
+    \label{fig:my_label}
+\end{figure}
     
     \begin{Verbatim}[commandchars=\\\{\}]
 White Kurtosis: 41.205491339214646
@@ -728,8 +752,7 @@ differently when it comes to sentencing and incarceration.
 
 The American criminal justice system had been criticized by many. Some
 claim that it is an extension of slavery, others claim that is biased
-and broken, while still others claim that it is effective
-{[}\href{https://museumandmemorial.eji.org/museum}{8}{]}. Dozens of
+and broken, while still others claim that it is effective\cite{eji}. Dozens of
 organizations study the American prison system with the goal of
 reforming it, while private, for profit, prisons lobby to maintain the
 status quo. We have explored a few of the ways in which the American
@@ -741,7 +764,9 @@ society continues to disenfranchise Americans of color today.
 
 
     % Add a bibliography block to the postdoc
+\pagebreak
+
+\nocite{*}
+\printbibliography
     
-    
-    
-    \end{document}
+\end{document}
