@@ -419,6 +419,26 @@ Below I have images of my attempt to use PCA, T-SNE, and UMAP to cluster
 the data. It is apperent that it simply is not effective.
 
     \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_8_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_9_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_10_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_11_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
     \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ETHANWALKER-404-FinalProject_files/ETHANWALKER-404-FinalProject_12_0.png}
     \end{center}
     { \hspace*{\fill} \\}
@@ -515,6 +535,12 @@ unbounded then overfitting of the individual trees may become an issue.
 
 In my gridsearch I found the best parameters to be the following
 
+    \begin{Verbatim}[commandchars=\\\{\}]
+Max Depth = 85
+Number of Estimators = 2100.
+
+    \end{Verbatim}
+
     My results with the random forest classifier were rather disappointing,
 especially given the amount of time it took to train which was 5.32
 hours on the following parameter grid
@@ -534,15 +560,7 @@ The out-of-box score was rather promising at .70 however the method
 scored barely better than chance. Here is a scoring of the model I ran:
 
     \begin{Verbatim}[commandchars=\\\{\}]
-/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator DecisionTreeClassifier from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
-  UserWarning)
-/home/ethan/anaconda3/lib/python3.7/site-packages/sklearn/base.py:318: UserWarning: Trying to unpickle estimator RandomForestClassifier from version 0.20.3 when using version 0.22.2.post1. This might lead to breaking code or invalid results. Use at your own risk.
-  UserWarning)
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-score on a test size of 500000 is 0.286044
+score on a test size of 500000 is 0.286932.
 
     \end{Verbatim}
 
@@ -562,16 +580,27 @@ random forest model to save time. Fitting the following grid
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{param_grid }\OperatorTok{=}\NormalTok{ \{}
-    \StringTok{'learning_rate'}\NormalTok{: np.linspace(.}\DecValTok{01}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{),}
-    \StringTok{'subsample'}\NormalTok{: np.linspace(.}\DecValTok{05}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+    \StringTok{'learning_rate'}\NormalTok{: np.linspace(.}\DecValTok{01}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{),}
+    \StringTok{'subsample'}\NormalTok{: np.linspace(.}\DecValTok{05}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
 I found the following parameters
 
+    \begin{Verbatim}[commandchars=\\\{\}]
+Max Depth = 85
+Number of Estimators = 100.
+
+    \end{Verbatim}
+
     The model scored slightly better than the random forest model, as
 expected giving the following score:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+score on a test size of 5000000 is 0.279797.
+
+    \end{Verbatim}
 
     \hypertarget{xgboost}{%
 \subsection{XGBoost}\label{xgboost}}
@@ -594,7 +623,19 @@ The grid I used was the following
 
 and I found the following parameters
 
+    \begin{Verbatim}[commandchars=\\\{\}]
+L1 Regularization = 0.2575
+L2 Regularization = 0.2575.
+Minimum loss reduction = 0.01.
+
+    \end{Verbatim}
+
     XGBoost scores very well compared to the other methods that I used,
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+score on a test size of 5000000 is 0.2765248.
+
+    \end{Verbatim}
 
     \hypertarget{lightgbm}{%
 \subsection{LightGBM}\label{lightgbm}}
@@ -615,6 +656,14 @@ the following grid
 
 and I found the following best parameters
 
+    \begin{Verbatim}[commandchars=\\\{\}]
+Boosting Type = gbdt
+Learning Rate = 0.23
+Number of Estimators = 1000
+Maximum Depth = 0.
+
+    \end{Verbatim}
+
     Note that a max depth \textless{}= 0 indicates that the depth is
 unbounded. Searching over this grid of size 4000 is something that I
 would have never even tried for XGBoost or any other GBDT method, though
@@ -625,22 +674,65 @@ After this I did a grid search on the following grid
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{param_grid }\OperatorTok{=}\NormalTok{ \{}
-    \StringTok{'reg_alpha'}\NormalTok{: np.linspace(.}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{),}
-    \StringTok{'reg_lambda'}\NormalTok{: np.linspace(.}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+    \StringTok{'reg_alpha'}\NormalTok{: np.linspace(.}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{),}
+    \StringTok{'reg_lambda'}\NormalTok{: np.linspace(.}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
 and found --------
 
+    \begin{Verbatim}[commandchars=\\\{\}]
+L1 Regularization = 0.1
+L2 Regularization = 0.1
+
+    \end{Verbatim}
+
     LightGBM scored comparible to XGBoost, as expected with what was
 reported in the paper introducing it
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+score on a test size of 5000000 is 0.4282534.
+
+    \end{Verbatim}
 
     \hypertarget{feature-importances}{%
 \subsection{Feature Importances}\label{feature-importances}}
 
 The only thing left to report about the results of my research is to
 examine the different assigned feature importances. They are as follows:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Random Forest:
+	GENDER = 0.009
+	AGE = 0.28
+	OFFENSE = 0.229
+	FACILITY = 0.149
+	DETAINER = 0.027
+	SENTENCE DAYS = 0.307
+Gradient Boosted Classifier:
+	GENDER = 0.01
+	AGE = 0.275
+	OFFENSE = 0.214
+	FACILITY = 0.177
+	DETAINER = 0.031
+	SENTENCE DAYS = 0.293
+XGBoost:
+	GENDER = 0.3199999928474426
+	AGE = 0.12999999523162842
+	OFFENSE = 0.14000000059604645
+	FACILITY = 0.10000000149011612
+	DETAINER = 0.17000000178813934
+	SENTENCE DAYS = 0.12999999523162842
+LightGBM:
+	GENDER = 104
+	AGE = 4034
+	OFFENSE = 3835
+	FACILITY = 2147
+	DETAINER = 520
+	SENTENCE DAYS = 4360
+
+    \end{Verbatim}
 
     \hypertarget{analysis}{%
 \section{Analysis}\label{analysis}}
