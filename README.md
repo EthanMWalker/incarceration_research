@@ -11,7 +11,7 @@ In this project I am interested in exploring the ways in which the law is being 
 To view my final report and analysis, look at the file "Race and Incarceration in American.pdf" within the reports folder. For extra information, including citations and bibliography view the appendix in "Appendix.pdf".
 
 
-# Ensemble Classification as an Effective Method ofDetermining Racial Bias in Incarceration Data
+# Ensemble Classification as an Effective Method of Determining Racial Bias in Incarceration Data
 ## Abstract
 Machine Learning is becoming a more prevalent tool in the world of criminal justice. Often it is used to predict who will commit a crime or where crimes may occur. Seldom is it used to regulate the criminal justice system, however. In this report I examine prison inmate data and determine what machine learning techniques are effective at detecting the racial bias that has been shown to exist in this data. In this report I find that ensemble methods, especially LightGBM, are effective in classifying inmates by race, thus showing that racial bias is detectable by machine learning techniques and that machine learning is an effective tool in determining if criminal justice reform should be considered.
 
