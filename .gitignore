@@ -5,3 +5,6 @@ data/
 *.csv
 
 *.zip
+*.tar.gz
+*.tar.xz
+
